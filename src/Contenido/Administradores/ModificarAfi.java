@@ -15,84 +15,92 @@ public class ModificarAfi {
             System.out.println("No se pudo establecer la conexión.");
         }
     }
-    
+
     public void Actualizar() {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("Ingrese el Número de Documento del afiliado a modificar: ");
-            Integer num_doc = scanner.nextInt();
-            scanner.nextLine(); 
-            
-            System.out.println("Modificar los siguientes datos del afiliado (deje en blanco si no desea modificar):");
-    
-            System.out.print("Tipo de documento: ");
-            String tipo_doc = scanner.nextLine();
-    
-            System.out.print("Apellidos: ");
-            String apellidos = scanner.nextLine();
-    
-            System.out.print("Nombres: ");
-            String nombres = scanner.nextLine();
-    
-            System.out.print("Fecha de nacimiento (YYYY-MM-DD): ");
-            String fecha = scanner.nextLine();
-    
-            System.out.print("Género: ");
-            String genero = scanner.nextLine();
-    
-            System.out.print("Dirección: ");
-            String direccion = scanner.nextLine();
-    
-            System.out.print("Teléfono: ");
-            String telefono = scanner.nextLine();
-    
-            System.out.print("Ciudad: ");
-            String ciudad = scanner.nextLine();
-    
-            System.out.print("Estado Civil: ");
-            String civil = scanner.nextLine();
-    
-            System.out.print("Correo: ");
-            String correo = scanner.nextLine();
-    
-            System.out.print("Estado (activo o inactivo): ");
-            String estado = scanner.nextLine();
-    
-            System.out.print("Ingrese el Nit de su IPS: ");
-            int Nit_ips = scanner.nextInt();
-            scanner.nextLine();  
-    
-            String query = "UPDATE afiliado SET tipo_doc = ?, apellidos = ?, nombres = ?, fecha_nac = ?, " +
-                           "genero = ?, direccion = ?, telefono = ?, ciudad = ?, estado_civil = ?, correo = ?, " +
-                           "estado = ?, nit_ips = ? WHERE num_doc = ?";
-            
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, tipo_doc.isEmpty() ? null : tipo_doc);
-                statement.setString(2, apellidos.isEmpty() ? null : apellidos);
-                statement.setString(3, nombres.isEmpty() ? null : nombres);
-                if (fecha.isEmpty()) {
-                    statement.setNull(4, java.sql.Types.DATE);
-                } else {
-                    statement.setDate(4, Date.valueOf(fecha));
+            int num_doc = scanner.nextInt();
+            scanner.nextLine();  // Limpiar buffer
+
+            String queryBase = "UPDATE afiliado SET ";
+            String whereClause = " WHERE num_doc = ?";
+            String field;
+            String value;
+
+            while (true) {
+                System.out.println("\nSeleccione el dato que desea modificar:");
+                System.out.println("1. Tipo de documento");
+                System.out.println("2. Apellidos");
+                System.out.println("3. Nombres");
+                System.out.println("4. Fecha de nacimiento");
+                System.out.println("5. Género");
+                System.out.println("6. Dirección");
+                System.out.println("7. Teléfono");
+                System.out.println("8. Ciudad");
+                System.out.println("9. Estado Civil");
+                System.out.println("10. Correo");
+                System.out.println("11. Estado (activo/inactivo)");
+                System.out.println("12. Nit de la IPS");
+                System.out.println("13. Salir");
+                System.out.print("Opción: ");
+                int opcion = scanner.nextInt();
+                scanner.nextLine();  // Limpiar buffer
+
+                if (opcion == 13) {
+                    System.out.println("Modificación finalizada.");
+                    break;
                 }
-                statement.setString(5, genero.isEmpty() ? null : genero);
-                statement.setString(6, direccion.isEmpty() ? null : direccion);
-                statement.setString(7, telefono.isEmpty() ? null : telefono);
-                statement.setString(8, ciudad.isEmpty() ? null : ciudad);
-                statement.setString(9, civil.isEmpty() ? null : civil);
-                statement.setString(10, correo.isEmpty() ? null : correo);
-                statement.setString(11, estado.isEmpty() ? null : estado);
-                statement.setInt(12, Nit_ips);
-                statement.setInt(13, num_doc);  
-                
-                int rowsUpdated = statement.executeUpdate();
-                if (rowsUpdated > 0) {
-                    System.out.println("Afiliado modificado exitosamente.");
-                } else {
-                    System.out.println("No se encontró un afiliado con ese número de documento.");
+
+                // Determinar el campo a modificar
+                switch (opcion) {
+                    case 1: field = "tipo_doc"; break;
+                    case 2: field = "apellidos"; break;
+                    case 3: field = "nombres"; break;
+                    case 4: field = "fecha_nac"; break;
+                    case 5: field = "genero"; break;
+                    case 6: field = "direccion"; break;
+                    case 7: field = "telefono"; break;
+                    case 8: field = "ciudad"; break;
+                    case 9: field = "estado_civil"; break;
+                    case 10: field = "correo"; break;
+                    case 11: field = "estado"; break;
+                    case 12: field = "nit_ips"; break;
+                    default: 
+                        System.out.println("Opción no válida.");
+                        continue;
+                }
+
+                // Pedir el nuevo valor
+                System.out.print("Ingrese el nuevo valor para " + field + ": ");
+                value = scanner.nextLine();
+
+                String query = queryBase + field + " = ? " + whereClause;
+
+                try (PreparedStatement statement = connection.prepareStatement(query)) {
+                    // Manejo especial para fechas o valores nulos
+                    if ("fecha_nac".equals(field)) {
+                        if (value.isEmpty()) {
+                            statement.setNull(1, java.sql.Types.DATE);
+                        } else {
+                            statement.setDate(1, Date.valueOf(value));
+                        }
+                    } else if ("nit_ips".equals(field)) {
+                        statement.setInt(1, Integer.parseInt(value));
+                    } else {
+                        statement.setString(1, value.isEmpty() ? null : value);
+                    }
+
+                    statement.setInt(2, num_doc);
+                    int rowsUpdated = statement.executeUpdate();
+                    if (rowsUpdated > 0) {
+                        System.out.println("El campo " + field + " fue modificado exitosamente.");
+                    } else {
+                        System.out.println("No se encontró un afiliado con ese número de documento.");
+                    }
+                } catch (SQLException e) {
+                    System.out.println("Error al modificar el campo: " + e.getMessage());
                 }
             }
-        } catch (SQLException e) {
-            System.out.println("Error al modificar el afiliado: " + e.getMessage());
         }
     }
-}    
+}
