@@ -1,17 +1,20 @@
 package Contenido.Administradores;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Contrato {
     private int numRadicado;
     private int cotNum;
     private int empreNit;
-    private Date fechaRec;
+    private Date fechaRec; 
     private double salarioBase;
     private String estado;
     private String tipoContrato;
+    private int nitEmpresa; 
+    private int rut;      
 
-    public Contrato(int numRadicado, int cotNum, int empreNit, Date fechaRec, double salarioBase, String estado, String tipoContrato) {
+    public Contrato(int numRadicado, int cotNum, int empreNit, Date fechaRec, double salarioBase, String estado,
+                    String tipoContrato, int nitEmpresa, int rut) {
         this.numRadicado = numRadicado;
         this.cotNum = cotNum;
         this.empreNit = empreNit;
@@ -19,6 +22,8 @@ public class Contrato {
         this.salarioBase = salarioBase;
         this.estado = estado;
         this.tipoContrato = tipoContrato;
+        this.nitEmpresa = nitEmpresa;
+        this.rut = rut;
     }
 
     public int getNumRadicado() {
@@ -75,5 +80,21 @@ public class Contrato {
 
     public void setTipoContrato(String tipoContrato) {
         this.tipoContrato = tipoContrato;
+    }
+
+    public int getNitEmpresa() {
+        return nitEmpresa;
+    }
+
+    public void setNitEmpresa(int nitEmpresa) {
+        this.nitEmpresa = nitEmpresa;
+    }
+
+    public int getRut() {
+        return rut;
+    }
+
+    public void setRut(int rut) {
+        this.rut = rut;
     }
 }

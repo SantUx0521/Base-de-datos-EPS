@@ -70,4 +70,5 @@ public class IngresarEmp {
             System.out.println("Error inesperado: " + e.getMessage());
         }
     }
+    
 }
