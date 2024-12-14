@@ -16,7 +16,6 @@ public class IngresarEmp {
     }
 
     public boolean registrarEmpresa(Empresa empresa) {
-        // Preparar el query para la inserción
         String query = "INSERT INTO EMPRESA (e_nit, razon_social, ciudad, direccion, nombre_contacto) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -40,15 +39,12 @@ public class IngresarEmp {
             return false;
         }
     }
-
-    // Método que solicita la información de la empresa e invoca el registro
     public void IngresarE() {
         Scanner scanner = new Scanner(System.in);
 
-        // Solicitar datos
         System.out.println("Ingrese el NIT de la empresa:");
         int nit = scanner.nextInt();
-        scanner.nextLine();  // Consumir salto de línea
+        scanner.nextLine();  
 
         System.out.println("Ingrese la razón social de la empresa:");
         String razonSocial = scanner.nextLine();
@@ -62,10 +58,7 @@ public class IngresarEmp {
         System.out.println("Ingrese el nombre del contacto:");
         String nombreContacto = scanner.nextLine();
 
-        // Crear la entidad Empresa
         Empresa empresa = new Empresa(nit, razonSocial, ciudad, direccion, nombreContacto);
-
-        // Intentar registrar la empresa
         try {
             if (registrarEmpresa(empresa)) {
                 System.out.println("La empresa fue registrada con éxito.");

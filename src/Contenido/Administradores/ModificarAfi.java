@@ -20,7 +20,7 @@ public class ModificarAfi {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("Ingrese el Número de Documento del afiliado a modificar: ");
             int num_doc = scanner.nextInt();
-            scanner.nextLine();  // Limpiar buffer
+            scanner.nextLine();  
 
             String queryBase = "UPDATE afiliado SET ";
             String whereClause = " WHERE num_doc = ?";

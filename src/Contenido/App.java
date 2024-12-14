@@ -3,6 +3,7 @@ package Contenido;
 import java.util.Scanner;
 import Contenido.Administradores.IngresarAfi;
 import Contenido.Administradores.IngresarEmp;
+import Contenido.Administradores.IngresarIPS;
 import Contenido.Administradores.ModificarAfi;
 
 public class App {
@@ -10,6 +11,7 @@ public class App {
         IngresarAfi admin = new IngresarAfi();
         ModificarAfi modificarAfi = new ModificarAfi();
         IngresarEmp empre = new IngresarEmp(); 
+        IngresarIPS Ips = new IngresarIPS();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -43,6 +45,7 @@ public class App {
                 case 4:
                     break;
                 case 5:
+                    Ips.agregarIps();
                     break;
                 case 6:
                     break;
