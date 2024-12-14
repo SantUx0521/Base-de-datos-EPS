@@ -1,10 +1,12 @@
-package Contenido;
+package Contenido.Administradores;
 import java.sql.*;
 import java.util.Scanner;
 
-public class Administrador {
+import Contenido.ConectividadSQL;
+
+public class IngresarAfi {
     private Connection connection; //esto es necesario para poder conectar con la base de datos
-    public Administrador() {
+    public IngresarAfi() {
         connection = ConectividadSQL.obtenerConexion(); // Utilizamos ConectividadSQL para obtener la conexión
         if (connection != null) {
             System.out.println("Conexión exitosa a la base de datos.");
@@ -89,4 +91,6 @@ public class Administrador {
             System.out.println("Error al agregar el afiliado: " + e.getMessage());
         }
     }
+    
 }
+
