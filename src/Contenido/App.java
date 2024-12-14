@@ -3,20 +3,31 @@ package Contenido;
 import java.util.Scanner;
 
 import Contenido.Administradores.GenerarContrato;
+import Contenido.Administradores.GenerarReporteAfi;
 import Contenido.Administradores.IngresarAfi;
 import Contenido.Administradores.IngresarEmp;
 import Contenido.Administradores.IngresarIPS;
 import Contenido.Administradores.IngresarOrden;
 import Contenido.Administradores.ModificarAfi;
+import Contenido.Administradores.ModificarContrato;
+import Contenido.Administradores.ModificarEmp;
+import Contenido.Administradores.ModificarIps;
+import Contenido.Administradores.ModificarOrden;
 
 public class App {
     public static void main(String[] args) {
         IngresarAfi admin = new IngresarAfi();
-        ModificarAfi modificarAfi = new ModificarAfi();
         IngresarEmp empre = new IngresarEmp(); 
         IngresarIPS Ips = new IngresarIPS();
         GenerarContrato contrato = new GenerarContrato();
         IngresarOrden orden = new IngresarOrden();
+        ModificarAfi modificarAfi = new ModificarAfi();
+        ModificarEmp modificarE = new ModificarEmp();
+        ModificarIps modificarI = new ModificarIps();
+        ModificarContrato modificarC = new ModificarContrato();
+        ModificarOrden modificarO = new ModificarOrden();
+        GenerarReporteAfi report = new GenerarReporteAfi();
+
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -30,6 +41,9 @@ public class App {
             System.out.println("7. Registrar Contrato");
             System.out.println("8. Modificar Contrato");
             System.out.println("9. Ingresar Orden de servicio");
+            System.out.println("10. Modificar Orden de servicio");
+            System.out.println("11. Generar Reporte de afiliados por estado");
+            System.out.println("12. Generar Reporte de ordenes por paciente");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
@@ -49,19 +63,30 @@ public class App {
                     empre.IngresarE();
                     break;
                 case 4:
+                    modificarE.modificarAtributoEmpresa();
                     break;
                 case 5:
                     Ips.agregarIps();
                     break;
                 case 6:
+                    modificarI.modificarAtributoIps();
                     break;
                 case 7:
                     contrato.IngresarContrato();
                     break;
                 case 8:
+                    modificarC.modificarAtributoContrato();
                     break;
                 case 9:
                     orden.GenerarOrden();
+                    break;
+                case 10:
+                    modificarO.modificarValorOrden();
+                    break;
+                case 11:
+                    report.consola();
+                    break;
+                case 12:
                     break;
                 default:
                     System.out.println("Opción inválida, intente de nuevo.");
