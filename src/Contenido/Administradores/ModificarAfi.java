@@ -44,14 +44,13 @@ public class ModificarAfi {
                 System.out.println("13. Salir");
                 System.out.print("Opción: ");
                 int opcion = scanner.nextInt();
-                scanner.nextLine();  // Limpiar buffer
+                scanner.nextLine(); 
 
                 if (opcion == 13) {
                     System.out.println("Modificación finalizada.");
                     break;
                 }
 
-                // Determinar el campo a modificar
                 switch (opcion) {
                     case 1: field = "tipo_doc"; break;
                     case 2: field = "apellidos"; break;
@@ -70,14 +69,12 @@ public class ModificarAfi {
                         continue;
                 }
 
-                // Pedir el nuevo valor
                 System.out.print("Ingrese el nuevo valor para " + field + ": ");
                 value = scanner.nextLine();
 
                 String query = queryBase + field + " = ? " + whereClause;
 
                 try (PreparedStatement statement = connection.prepareStatement(query)) {
-                    // Manejo especial para fechas o valores nulos
                     if ("fecha_nac".equals(field)) {
                         if (value.isEmpty()) {
                             statement.setNull(1, java.sql.Types.DATE);
