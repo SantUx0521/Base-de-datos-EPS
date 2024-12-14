@@ -1,8 +1,6 @@
 package Contenido.Administradores;
-
 import java.sql.*;
 import java.util.Scanner;
-
 import Contenido.ConectividadSQL;
 
 public class IngresarIPS {

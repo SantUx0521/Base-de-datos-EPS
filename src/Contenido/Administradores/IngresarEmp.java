@@ -14,18 +14,18 @@ public class IngresarEmp {
             System.out.println("Error en la conexión a la base de datos.");
         }
     }
-
+    //A partir de ingresar EMP encontre un metodo mucho mejor y más sencillo para conectar con la base de datos y que probablemente de menos problemas luego jajaj
     public boolean registrarEmpresa(Empresa empresa) {
         String query = "INSERT INTO EMPRESA (e_nit, razon_social, ciudad, direccion, nombre_contacto) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, empresa.getNit());
+            statement.setInt(1, empresa.getNit()); //al momento de especificar los atributos de la tabla se llama a la clase creada anteriormente con sus respectivos getters y setters
             statement.setString(2, empresa.getRazonSocial());
             statement.setString(3, empresa.getCiudad());
-            statement.setString(4, empresa.getDireccion());
+            statement.setString(4, empresa.getDireccion()); // de esta forma esta más organizado y seguramente de menos problemas
             statement.setString(5, empresa.getNombreContacto());
 
-            int filasAfectadas = statement.executeUpdate();
+            int filasAfectadas = statement.executeUpdate(); //aqui me tocó mover cosas porque no queria funcionar pero no es obligatorio, lo unico importante es el executeUpdate
 
             if (filasAfectadas > 0) {
                 System.out.println("Empresa registrada correctamente.");
@@ -39,6 +39,7 @@ public class IngresarEmp {
             return false;
         }
     }
+    // de igual forma hice algo sencillo para irlo probando, lo importante es lo que está arriba 
     public void IngresarE() {
         Scanner scanner = new Scanner(System.in);
 
@@ -58,7 +59,7 @@ public class IngresarEmp {
         System.out.println("Ingrese el nombre del contacto:");
         String nombreContacto = scanner.nextLine();
 
-        Empresa empresa = new Empresa(nit, razonSocial, ciudad, direccion, nombreContacto);
+        Empresa empresa = new Empresa(nit, razonSocial, ciudad, direccion, nombreContacto); //en este caso toca definirlo para que la entrada corresponda a los getters
         try {
             if (registrarEmpresa(empresa)) {
                 System.out.println("La empresa fue registrada con éxito.");

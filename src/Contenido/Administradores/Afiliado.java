@@ -1,5 +1,5 @@
 package Contenido.Administradores;
-
+// importante al momento de crear  las clases de las entidades, que contengan todos los atributos en una estructura similar a la de la base de datos original, para evitar problemas
 public class Afiliado {
     private Integer num_doc;
     private String tipo_doc;
@@ -14,7 +14,7 @@ public class Afiliado {
     private String correo;
     private String estado;
     private int nit_ips;
-
+    
     public Afiliado(Integer num_doc, String tipo_doc, String apellidos, String nombres, String fecha_nac, String genero, 
                     String direccion, String telefono, String ciudad, String estado_civil, String correo, String estado, int nit_ips) {
         this.num_doc = num_doc;

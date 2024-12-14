@@ -15,7 +15,7 @@ public class ModificarAfi {
             System.out.println("No se pudo establecer la conexión.");
         }
     }
-
+    //creo que modificar afiliado tengo que cambiarlo despues de haber hecho los cambios en ingresarlos, habra que ver si da o no problemas con la GUI
     public void Actualizar() {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.print("Ingrese el Número de Documento del afiliado a modificar: ");
