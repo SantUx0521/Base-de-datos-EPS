@@ -15,7 +15,6 @@ public class Afiliado {
     private String estado;
     private int nit_ips;
 
-    // Constructor
     public Afiliado(Integer num_doc, String tipo_doc, String apellidos, String nombres, String fecha_nac, String genero, 
                     String direccion, String telefono, String ciudad, String estado_civil, String correo, String estado, int nit_ips) {
         this.num_doc = num_doc;
