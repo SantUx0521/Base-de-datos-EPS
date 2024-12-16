@@ -58,7 +58,6 @@ PRIMARY KEY (E_NIT)
 CREATE TABLE CONTRATO(
 Num_Radicado INTEGER NOT NULL,
 Cot_Num INTEGER NOT NULL,
-Empre_Nit INTEGER NOT NULL,
 Fecha_Rec DATE NOT NULL,
 Salario_Base FLOAT NOT NULL,
 Estado VARCHAR(15) CHECK (Estado in('Activo','Inactivo','Retirado')) NOT NULL,
