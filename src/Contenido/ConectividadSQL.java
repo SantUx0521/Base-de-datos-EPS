@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 
 public class ConectividadSQL {
     public static Connection obtenerConexion() {
-        String url = "jdbc:postgresql://localhost:5432/Proyecto BD"; // URL de la base de datos
+        String url = "jdbc:postgresql://localhost:5432/Proyecto%20BD";
         String user = "postgres"; 
         String password = "123"; 
         

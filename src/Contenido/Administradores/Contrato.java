@@ -5,7 +5,6 @@ import java.sql.Date;
 public class Contrato {
     private int numRadicado;
     private int cotNum;
-    private int empreNit;
     private Date fechaRec; 
     private double salarioBase;
     private String estado;
@@ -13,11 +12,10 @@ public class Contrato {
     private int nitEmpresa; 
     private int rut;      
 
-    public Contrato(int numRadicado, int cotNum, int empreNit, Date fechaRec, double salarioBase, String estado,
+    public Contrato(int numRadicado, int cotNum, Date fechaRec, double salarioBase, String estado,
                     String tipoContrato, int nitEmpresa, int rut) {
         this.numRadicado = numRadicado;
         this.cotNum = cotNum;
-        this.empreNit = empreNit;
         this.fechaRec = fechaRec;
         this.salarioBase = salarioBase;
         this.estado = estado;
@@ -40,14 +38,6 @@ public class Contrato {
 
     public void setCotNum(int cotNum) {
         this.cotNum = cotNum;
-    }
-
-    public int getEmpreNit() {
-        return empreNit;
-    }
-
-    public void setEmpreNit(int empreNit) {
-        this.empreNit = empreNit;
     }
 
     public Date getFechaRec() {
