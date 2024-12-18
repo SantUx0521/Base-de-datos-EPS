@@ -14,6 +14,7 @@ import Contenido.Administradores.ModificarEmp;
 import Contenido.Administradores.ModificarIps;
 import Contenido.Administradores.ModificarOrden;
 import Contenido.Administradores.prueba1;
+import Contenido.Bancos.IngresarPago;
 
 public class App {
     public static void main(String[] args) {
@@ -29,6 +30,8 @@ public class App {
         ModificarOrden modificarO = new ModificarOrden();
         GenerarReporteAfi report = new GenerarReporteAfi();
         prueba1 prueba = new prueba1();
+        IngresarPago pago = new IngresarPago();
+        
 
         Scanner scanner = new Scanner(System.in);
 
@@ -47,6 +50,7 @@ public class App {
             System.out.println("11. Generar Reporte de afiliados por estado");
             System.out.println("12. Generar Reporte de pago entre fechas");
             System.out.println("13. Listado de citas en una fecha e IPS en particular.");
+            System.out.println("14. agregar pago");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
@@ -91,6 +95,9 @@ public class App {
                     break;
                 case 12:
                     prueba.pruebita();
+                    break;
+                case 13:
+                    pago.agregarPago();
                     break;
                 default:
                     System.out.println("Opción inválida, intente de nuevo.");

@@ -1,17 +1,17 @@
 package Contenido.Administradores;
 
 public class ips {
-    private int nit;
-    private String razonSocial;
-    private String nivelAtencion;
-
-    public ips(int nit, String razonSocial, String nivelAtencion) {
-        this.nit = nit;
-        this.razonSocial = razonSocial;
-        this.nivelAtencion = nivelAtencion;
-    }
-
-    public int getNit() {
+    private static int nit;
+        private String razonSocial;
+        private String nivelAtencion;
+    
+        public ips(int nit, String razonSocial, String nivelAtencion) {
+            this.nit = nit;
+            this.razonSocial = razonSocial;
+            this.nivelAtencion = nivelAtencion;
+        }
+    
+    public static int getNit() {
         return nit;
     }
 
