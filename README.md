@@ -68,7 +68,7 @@ Nit_Empresa INTEGER,
 RUT INTEGER,
 PRIMARY KEY (Num_Radicado),
 FOREIGN KEY (Cot_Num) REFERENCES Cotizante(Num_Doc),
-FOREIGN KEY (Empre_Nit) REFERENCES EMPRESA(E_NIT),
+FOREIGN KEY (Nit_Empresa) REFERENCES EMPRESA(E_NIT),
 CHECK (
 	(Tipo_Cot = 'Dependiente' AND Nit_Empresa IS NOT NULL AND RUT IS NULL) OR
 	(Tipo_Cot = 'Independiente' AND RUT IS NOT NULL AND Nit_Empresa IS NULL)
