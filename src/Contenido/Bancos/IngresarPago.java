@@ -47,8 +47,5 @@ public class IngresarPago {
         System.out.println("Ingrese el valor del pago: ");
         double valor = scanner.nextDouble();
         scanner.nextLine();
-
-        Pago paga = new Pago(codigo_pago, num_rad, fecha, valor);
-        registrarPagos(paga);
     }
 }
