@@ -4,6 +4,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import Contenido.Bancos.Pago;
+
 public class ListadoCitas {
     private Connection connection;
 

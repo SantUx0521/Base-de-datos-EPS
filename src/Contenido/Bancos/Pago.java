@@ -1,4 +1,4 @@
-package Contenido.Administradores;
+package Contenido.Bancos;
 
 import java.util.Date;
 

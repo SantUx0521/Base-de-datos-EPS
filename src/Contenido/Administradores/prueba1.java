@@ -1,8 +1,8 @@
 package Contenido.Administradores;
 
 
-import Contenido.Administradores.Pago;
-import Contenido.Administradores.GenerarReportePago;
+import Contenido.Bancos.GenerarReportePago;
+import Contenido.Bancos.Pago;
 import Contenido.ConectividadSQL;
 
 import java.sql.Connection;
