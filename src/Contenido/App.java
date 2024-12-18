@@ -13,6 +13,7 @@ import Contenido.Administradores.ModificarContrato;
 import Contenido.Administradores.ModificarEmp;
 import Contenido.Administradores.ModificarIps;
 import Contenido.Administradores.ModificarOrden;
+import Contenido.Administradores.prueba1;
 
 public class App {
     public static void main(String[] args) {
@@ -27,6 +28,7 @@ public class App {
         ModificarContrato modificarC = new ModificarContrato();
         ModificarOrden modificarO = new ModificarOrden();
         GenerarReporteAfi report = new GenerarReporteAfi();
+        prueba1 prueba = new prueba1();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -43,7 +45,8 @@ public class App {
             System.out.println("9. Ingresar Orden de servicio");
             System.out.println("10. Modificar Orden de servicio");
             System.out.println("11. Generar Reporte de afiliados por estado");
-            System.out.println("12. Generar Reporte de ordenes por paciente");
+            System.out.println("12. Generar Reporte de pago entre fechas");
+            System.out.println("13. Listado de citas en una fecha e IPS en particular.");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
@@ -87,6 +90,7 @@ public class App {
                     report.consola();
                     break;
                 case 12:
+                    prueba.pruebita();
                     break;
                 default:
                     System.out.println("Opción inválida, intente de nuevo.");
