@@ -3,34 +3,22 @@ package Contenido;
 import java.util.Scanner;
 
 import Contenido.Administradores.GenerarContrato;
-import Contenido.Administradores.GenerarReporteAfi;
-import Contenido.Administradores.IngresarAfi;
-import Contenido.Administradores.IngresarEmp;
 import Contenido.Administradores.IngresarIPS;
 import Contenido.Administradores.IngresarOrden;
-import Contenido.Administradores.ModificarAfi;
-import Contenido.Administradores.ModificarContrato;
-import Contenido.Administradores.ModificarEmp;
-import Contenido.Administradores.ModificarIps;
-import Contenido.Administradores.ModificarOrden;
-import Contenido.Administradores.prueba1;
+import Contenido.Administradores.ListadoCitas;
+import Contenido.Bancos.GenerarReportePago;
 import Contenido.Bancos.IngresarPago;
+import Contenido.Cotizantes.info_cotizantes;
 
 public class App {
     public static void main(String[] args) {
-        IngresarAfi admin = new IngresarAfi();
-        IngresarEmp empre = new IngresarEmp(); 
         IngresarIPS Ips = new IngresarIPS();
         GenerarContrato contrato = new GenerarContrato();
         IngresarOrden orden = new IngresarOrden();
-        ModificarAfi modificarAfi = new ModificarAfi();
-        ModificarEmp modificarE = new ModificarEmp();
-        ModificarIps modificarI = new ModificarIps();
-        ModificarContrato modificarC = new ModificarContrato();
-        ModificarOrden modificarO = new ModificarOrden();
-        GenerarReporteAfi report = new GenerarReporteAfi();
-        prueba1 prueba = new prueba1();
+        GenerarReportePago paguito = new GenerarReportePago();
         IngresarPago pago = new IngresarPago();
+        info_cotizantes cotiInfo = new info_cotizantes();
+        ListadoCitas lista = new ListadoCitas();
         
 
         Scanner scanner = new Scanner(System.in);
@@ -56,49 +44,32 @@ public class App {
             int opcion = scanner.nextInt();
 
             switch (opcion) {
-                case 1:
-                    admin.agregarAfiliado(); 
-                    break;
                 case 0:
                     System.out.println("¡Hasta luego!");
                     System.exit(0); 
                     break;
-                case 2:
-                    modificarAfi.Actualizar();
-                    break;
-                case 3:
-                    empre.IngresarE();
-                    break;
-                case 4:
-                    modificarE.modificarAtributoEmpresa();
-                    break;
                 case 5:
                     Ips.agregarIps();
-                    break;
-                case 6:
-                    modificarI.modificarAtributoIps();
                     break;
                 case 7:
                     contrato.IngresarContrato();
                     break;
-                case 8:
-                    modificarC.modificarAtributoContrato();
-                    break;
                 case 9:
                     orden.GenerarOrden();
                     break;
-                case 10:
-                    modificarO.modificarValorOrden();
-                    break;
-                case 11:
-                    report.consola();
-                    break;
                 case 12:
-                    prueba.pruebita();
+                    lista.listar();
                     break;
                 case 13:
-                    pago.agregarPago();
+                    pago.ingresarPago();
                     break;
+                case 14:
+                System.out.println("Ejecutando seleccionarCotizanteSwing");
+                cotiInfo.seleccionarCotizanteSwing();
+                case 15:
+                    paguito.generarReporteGrafico();
+                break;
+
                 default:
                     System.out.println("Opción inválida, intente de nuevo.");
                     break;

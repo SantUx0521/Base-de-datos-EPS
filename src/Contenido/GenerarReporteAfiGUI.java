@@ -74,14 +74,11 @@ public class GenerarReporteAfiGUI extends JFrame {
         scrollPane = new JScrollPane(textAreaReporte);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        // Añadir los componentes al panel principal
         panel.add(panelBotones, BorderLayout.NORTH);
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        // Añadir panel al JFrame
         add(panel);
 
-        // Eventos
         btnActivos.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,7 +96,7 @@ public class GenerarReporteAfiGUI extends JFrame {
         btnSalir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.exit(0); // Cerrar la aplicación
+                System.exit(0); 
             }
         });
     }
@@ -110,7 +107,7 @@ public class GenerarReporteAfiGUI extends JFrame {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, estado);
             try (ResultSet resultSet = statement.executeQuery()) {
-                textAreaReporte.setText(""); // Limpiar área de texto antes de mostrar el reporte
+                textAreaReporte.setText(""); 
                 textAreaReporte.append("Reporte de Afiliados - Estado: " + estado + "\n");
                 textAreaReporte.append("Estado | Nombre\n");
                 textAreaReporte.append("--------------------------\n");
