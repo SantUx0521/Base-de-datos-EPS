@@ -19,7 +19,7 @@ public class GenerarReportePago {
             System.out.println("Error: No se pudo establecer la conexión con la base de datos.");
         }
     }
-    // Método para listar pagos por afiliado y rango de fechas
+
     public List<Pago> listarPagos(int numeroDocumentoAfiliado, Date fechaInicio, Date fechaFin) {
         List<Pago> pagos = new ArrayList<>();
         String query = "SELECT PA.Codigo_Pago, A.Num_Doc AS Numero_Documento_Afiliado, A.Nombres || ' ' || A.Apellidos AS Nombre_Completo, " +
@@ -56,32 +56,27 @@ public class GenerarReportePago {
         return pagos;
     }
 
-    // Método para generar la interfaz gráfica y mostrar los pagos en una tabla
-    public void generarReporteGrafico() {
-        // Crear ventana principal
+    public void generarReporteGrafico(JFrame ventanaAnterior) {
         JFrame frame = new JFrame("Reporte de Pagos");
-        frame.setSize(800, 600);
+        frame.setSize(600, 400);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
-        // Panel de contenido
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
-        panel.setBackground(new Color(245, 245, 245)); // Fondo claro
+        panel.setBackground(new Color(245, 245, 245));
 
-        // Crear tabla para mostrar los datos
         String[] columns = {"Código de Pago", "Número de Radicado", "Nombre Afiliado", "Fecha de Pago", "Valor"};
         JTable table = new JTable();
         DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
         table.setModel(tableModel);
         
-        // Crear scroll para la tabla
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane, BorderLayout.CENTER);
 
-        // Filtros de búsqueda
         JPanel inputPanel = new JPanel();
-        inputPanel.setLayout(new FlowLayout());
+        inputPanel.setLayout(new GridLayout(4, 2, 10, 10));
+        inputPanel.setOpaque(false);
         JLabel lblDocumento = new JLabel("Número de Documento:");
         JTextField txtDocumento = new JTextField(10);
         JLabel lblFechaInicio = new JLabel("Fecha Inicio (YYYY-MM-DD):");
@@ -89,15 +84,30 @@ public class GenerarReportePago {
         JLabel lblFechaFin = new JLabel("Fecha Fin (YYYY-MM-DD):");
         JTextField txtFechaFin = new JTextField(10);
         JButton btnGenerar = new JButton("Generar Reporte");
+
         inputPanel.add(lblDocumento);
         inputPanel.add(txtDocumento);
         inputPanel.add(lblFechaInicio);
         inputPanel.add(txtFechaInicio);
         inputPanel.add(lblFechaFin);
         inputPanel.add(txtFechaFin);
+        inputPanel.add(new JLabel());  // Espacio vacío para alineación
         inputPanel.add(btnGenerar);
         
-        panel.add(inputPanel, BorderLayout.NORTH);
+        // Botón minimalista "Volver"
+        JButton btnVolver = new JButton("← Volver");
+        btnVolver.setFocusPainted(false);
+        btnVolver.setBorderPainted(false);
+        btnVolver.setContentAreaFilled(false);
+        btnVolver.setForeground(new Color(70, 130, 180)); // Azul minimalista
+        
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setOpaque(false);
+        topPanel.add(inputPanel, BorderLayout.CENTER);
+        topPanel.add(btnVolver, BorderLayout.WEST);
+
+        // Añadir el panel superior al principal
+        panel.add(topPanel, BorderLayout.NORTH);
 
         // Acción del botón "Generar Reporte"
         btnGenerar.addActionListener(new ActionListener() {
@@ -134,6 +144,20 @@ public class GenerarReportePago {
                 }
             }
         });
+
+        // Acción del botón "Volver"
+        btnVolver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Cerrar la ventana actual y mostrar la ventana anterior
+                frame.dispose();
+                if (ventanaAnterior != null) {
+                    ventanaAnterior.setVisible(true);  // Mostrar la ventana anterior
+                }
+            }
+        });
+
+        // Añadir todo al JFrame y mostrar
         frame.add(panel);
         frame.setVisible(true);
     }

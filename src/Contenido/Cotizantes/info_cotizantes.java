@@ -17,23 +17,20 @@ public class info_cotizantes {
         }
     }
 
-    // Método principal para seleccionar cotizantes y mostrar ventana
     public void seleccionarCotizanteSwing() {
-        // Crear ventana principal con un diseño bonito
         JFrame frame = new JFrame("Detalles del Cotizante");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        frame.setLocationRelativeTo(null); // Centra la ventana
+        frame.setLocationRelativeTo(null); 
 
-        // Panel superior con un borde y espacio
         JPanel topPanel = new JPanel();
-        topPanel.setBackground(new Color(45, 45, 45)); // Color de fondo
+        topPanel.setBackground(new Color(45, 45, 45)); 
         topPanel.setLayout(new FlowLayout());
         topPanel.setPreferredSize(new Dimension(frame.getWidth(), 50));
         
         JLabel lblDocumento = new JLabel("Número de Documento:");
-        lblDocumento.setForeground(Color.WHITE);  // Color blanco para la etiqueta
+        lblDocumento.setForeground(Color.WHITE);  
         lblDocumento.setFont(new Font("Arial", Font.BOLD, 14));
         topPanel.add(lblDocumento);
 
@@ -41,22 +38,19 @@ public class info_cotizantes {
         topPanel.add(txtDocumento);
 
         JButton btnBuscar = new JButton("Buscar");
-        btnBuscar.setBackground(new Color(60, 179, 113)); // Verde
-        btnBuscar.setForeground(Color.WHITE); // Color blanco
+        btnBuscar.setBackground(new Color(60, 179, 113)); 
+        btnBuscar.setForeground(Color.WHITE); 
         topPanel.add(btnBuscar);
 
         frame.add(topPanel, BorderLayout.NORTH);
 
-        // Crear JTable para mostrar los resultados en formato de tabla
         JTable table = new JTable();
         JScrollPane scrollPane = new JScrollPane(table);
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        // Configurar la tabla con un modelo predeterminado
         DefaultTableModel tableModel = new DefaultTableModel();
         table.setModel(tableModel);
 
-        // Definir columnas para la tabla
         tableModel.addColumn("Número Documento");
         tableModel.addColumn("Tipo Documento");
         tableModel.addColumn("Fecha Afiliación");
@@ -73,14 +67,12 @@ public class info_cotizantes {
         tableModel.addColumn("Estado");
         tableModel.addColumn("NIT IPS");
 
-        // Agregar espacio de texto para mostrar el mensaje si no se encuentran datos
         JTextArea txtAreaMessage = new JTextArea();
         txtAreaMessage.setEditable(false);
         txtAreaMessage.setBackground(new Color(255, 255, 255));
         txtAreaMessage.setForeground(Color.RED);
         frame.add(txtAreaMessage, BorderLayout.SOUTH);
 
-        // Acción para el botón "Buscar"
         btnBuscar.addActionListener(e -> {
             String numDocStr = txtDocumento.getText();
             if (numDocStr.isEmpty()) {

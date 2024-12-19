@@ -21,7 +21,7 @@ public class IngresarPago {
     }
 
     // Método para mostrar la interfaz gráfica para ingresar pagos
-    public void ingresarPago() {
+    public void ingresarPago(JFrame ventanaAnterior) {
         // Crear ventana principal
         JFrame frame = new JFrame("Registrar Pago de Aporte");
         frame.setSize(600, 400);
@@ -53,6 +53,13 @@ public class IngresarPago {
         JButton btnRegistrar = new JButton("Registrar Pago");
         btnRegistrar.setBackground(new Color(60, 179, 113));  // Verde
         btnRegistrar.setForeground(Color.WHITE);
+
+        // Botón de volver
+        JButton btnVolver = new JButton("← Volver");
+        btnVolver.setBackground(new Color(220, 220, 220));  // Gris claro
+        btnVolver.setForeground(Color.BLACK);
+        btnVolver.setFocusPainted(false);
+        btnVolver.setBorderPainted(false);
 
         // Añadir etiquetas y campos de entrada al panel
         constraints.gridx = 0;
@@ -94,6 +101,12 @@ public class IngresarPago {
 
         frame.add(panel);
 
+        // Panel superior para incluir el botón de volver
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        topPanel.setBackground(new Color(245, 245, 245));
+        topPanel.add(btnVolver);
+        frame.add(topPanel, BorderLayout.NORTH);
+
         // Acción del botón de registro
         btnRegistrar.addActionListener(new ActionListener() {
             @Override
@@ -125,6 +138,17 @@ public class IngresarPago {
                     JOptionPane.showMessageDialog(frame, "Por favor, ingrese datos válidos.");
                 } catch (IllegalArgumentException ex) {
                     JOptionPane.showMessageDialog(frame, "Error en la fecha, asegúrese de usar el formato correcto (YYYY-MM-DD).");
+                }
+            }
+        });
+
+        // Acción del botón de volver
+        btnVolver.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose(); // Cierra la ventana actual
+                if (ventanaAnterior != null) {
+                    ventanaAnterior.setVisible(true); // Vuelve a la ventana anterior
                 }
             }
         });

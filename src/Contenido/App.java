@@ -6,6 +6,7 @@ import Contenido.Administradores.GenerarContrato;
 import Contenido.Administradores.IngresarIPS;
 import Contenido.Administradores.IngresarOrden;
 import Contenido.Administradores.ListadoCitas;
+import Contenido.Administradores.ListarIndepGUI;
 import Contenido.Bancos.GenerarReportePago;
 import Contenido.Bancos.IngresarPago;
 import Contenido.Cotizantes.info_cotizantes;
@@ -13,12 +14,14 @@ import Contenido.Cotizantes.info_cotizantes;
 public class App {
     public static void main(String[] args) {
         IngresarIPS Ips = new IngresarIPS();
+        ModificarAfiGUI ma = new ModificarAfiGUI();
         GenerarContrato contrato = new GenerarContrato();
         IngresarOrden orden = new IngresarOrden();
         GenerarReportePago paguito = new GenerarReportePago();
         IngresarPago pago = new IngresarPago();
         info_cotizantes cotiInfo = new info_cotizantes();
         ListadoCitas lista = new ListadoCitas();
+        ListarIndepGUI list = new ListarIndepGUI();
         
 
         Scanner scanner = new Scanner(System.in);
@@ -49,25 +52,25 @@ public class App {
                     System.exit(0); 
                     break;
                 case 5:
-                    Ips.agregarIps();
+                    list.mostrarAfiliadosIndependientes(ma);
                     break;
                 case 7:
                     contrato.IngresarContrato();
                     break;
                 case 9:
-                    orden.GenerarOrden();
+                    cotiInfo.seleccionarCotizanteSwing();;
                     break;
                 case 12:
                     lista.listar();
                     break;
                 case 13:
-                    pago.ingresarPago();
+                    pago.ingresarPago(ma);
                     break;
                 case 14:
                 System.out.println("Ejecutando seleccionarCotizanteSwing");
                 cotiInfo.seleccionarCotizanteSwing();
                 case 15:
-                    paguito.generarReporteGrafico();
+                    paguito.generarReporteGrafico(ma);
                 break;
 
                 default:

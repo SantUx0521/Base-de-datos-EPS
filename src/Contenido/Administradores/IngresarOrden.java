@@ -10,7 +10,6 @@ import java.sql.*;
 public class IngresarOrden {
     private Connection connection;
 
-    // Constructor para inicializar la conexión a la base de datos
     public IngresarOrden() {
         connection = ConectividadSQL.obtenerConexion();  
         if (connection != null) {
@@ -20,19 +19,16 @@ public class IngresarOrden {
         }
     }
 
-    // Método para crear la ventana de registro de ordenes
     public void GenerarOrden() {
         JFrame frame = new JFrame("Registrar Orden de Servicio");
         frame.setSize(500, 400);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        frame.setLocationRelativeTo(null);
 
-        // Panel principal que organiza los componentes
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        // Componentes gráficos
+
         JLabel lblCodOrden = new JLabel("Código de Orden:");
         JLabel lblFecha = new JLabel("Fecha de Orden:");
         JLabel lblDocPaciente = new JLabel("Documento del Paciente:");
@@ -46,12 +42,11 @@ public class IngresarOrden {
         JTextField txtDiagnostico = new JTextField();
         
         JButton btnRegistrar = new JButton("Registrar Orden");
-        btnRegistrar.setBackground(new Color(102, 180, 255)); // Azul claro
+        btnRegistrar.setBackground(new Color(102, 180, 255));
         btnRegistrar.setForeground(Color.WHITE);
         btnRegistrar.setFont(new Font("Arial", Font.BOLD, 14));
         btnRegistrar.setFocusPainted(false);
 
-        // Añadiendo los componentes al panel
         panel.add(lblCodOrden);
         panel.add(txtCodOrden);
         panel.add(lblFecha);
@@ -62,10 +57,9 @@ public class IngresarOrden {
         panel.add(txtMedico);
         panel.add(lblDiagnostico);
         panel.add(txtDiagnostico);
-        panel.add(Box.createVerticalStrut(20)); // Espaciado entre los componentes
+        panel.add(Box.createVerticalStrut(20)); 
         panel.add(btnRegistrar);
 
-        // Acción del botón de registrar
         btnRegistrar.addActionListener(e -> {
             try {
                 int codOrden = Integer.parseInt(txtCodOrden.getText());
@@ -77,11 +71,10 @@ public class IngresarOrden {
                 if (codOrden == 0 || fecha == null || docPaciente == 0 || medico.isEmpty() || diagnostico.isEmpty()) {
                     JOptionPane.showMessageDialog(frame, "Por favor, complete todos los campos.");
                 } else {
-                    // Llamar a la función de registrarOrden
+
                     Ordenes_servicio nuevaOrden = new Ordenes_servicio(codOrden, fecha, docPaciente, medico, diagnostico);
                     RegistrarOrden(nuevaOrden);
 
-                    // Limpiar los campos de texto después de registrar la orden
                     txtCodOrden.setText("");
                     txtFecha.setText("");
                     txtDocPaciente.setText("");
@@ -95,12 +88,11 @@ public class IngresarOrden {
             }
         });
 
-        // Establecer la ventana visible
+
         frame.add(panel);
         frame.setVisible(true);
     }
 
-    // Método que inserta la orden en la base de datos
     public void RegistrarOrden(Ordenes_servicio orden) {
         String query = "INSERT INTO ordenes (cod_orden, fecha, doc_paciente, medico, diagnostico) VALUES (?, ?, ?, ?, ?)";
 
