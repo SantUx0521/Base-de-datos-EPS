@@ -1,8 +1,11 @@
 package Contenido.Administradores;
 
-import java.sql.*;
-import java.util.Scanner;
 import Contenido.ConectividadSQL;
+import Contenido.Administradores.Contrato;
+
+import javax.swing.*;
+import java.awt.*;
+import java.sql.*;
 
 public class GenerarContrato {
     private Connection connection;
@@ -14,6 +17,104 @@ public class GenerarContrato {
         } else {
             System.out.println("Error en la conexión a la base de datos.");
         }
+    }
+
+    public void IngresarContrato() {
+        JFrame frame = new JFrame("Registrar Contrato");
+        frame.setSize(500, 400);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null); 
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
+        JLabel lblNumRadicado = new JLabel("Número de Radicado:");
+        JLabel lblCotNum = new JLabel("Número de Cotizante:");
+        JLabel lblFechaRec = new JLabel("Fecha de Recepción:");
+        JLabel lblSalarioBase = new JLabel("Salario Base:");
+        JLabel lblEstado = new JLabel("Estado:");
+        JLabel lblTipoContrato = new JLabel("Tipo de Contrato:");
+        JLabel lblNitRut = new JLabel("NIT/RUT Empresa:");
+
+        JTextField txtNumRadicado = new JTextField();
+        JTextField txtCotNum = new JTextField();
+        JTextField txtFechaRec = new JTextField(); 
+        JTextField txtSalarioBase = new JTextField();
+        JTextField txtEstado = new JTextField();
+        JTextField txtTipoContrato = new JTextField();
+        JTextField txtNitRut = new JTextField();
+
+        JButton btnRegistrar = new JButton("Registrar Contrato");
+        btnRegistrar.setBackground(new Color(102, 180, 255)); 
+        btnRegistrar.setForeground(Color.WHITE);
+        btnRegistrar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnRegistrar.setFocusPainted(false);
+
+        panel.add(lblNumRadicado);
+        panel.add(txtNumRadicado);
+        panel.add(lblCotNum);
+        panel.add(txtCotNum);
+        panel.add(lblFechaRec);
+        panel.add(txtFechaRec);
+        panel.add(lblSalarioBase);
+        panel.add(txtSalarioBase);
+        panel.add(lblEstado);
+        panel.add(txtEstado);
+        panel.add(lblTipoContrato);
+        panel.add(txtTipoContrato);
+        panel.add(lblNitRut);
+        panel.add(txtNitRut);
+        panel.add(Box.createVerticalStrut(20)); 
+        panel.add(btnRegistrar);
+
+        btnRegistrar.addActionListener(e -> {
+            try {
+                int numRadicado = Integer.parseInt(txtNumRadicado.getText());
+                int cotNum = Integer.parseInt(txtCotNum.getText());
+                Date fechaRec = Date.valueOf(txtFechaRec.getText()); 
+                double salarioBase = Double.parseDouble(txtSalarioBase.getText());
+                String estado = txtEstado.getText();
+                String tipoContrato = txtTipoContrato.getText();
+                
+                int nitRut = Integer.parseInt(txtNitRut.getText());
+        
+                if (numRadicado == 0 || cotNum == 0 || fechaRec == null || salarioBase == 0 || estado.isEmpty() || tipoContrato.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, complete todos los campos.");
+                } else {
+                    Contrato nuevoContrato;
+                    if (tipoContrato.equalsIgnoreCase("Dependiente")) {
+                        nuevoContrato = new Contrato(numRadicado, cotNum, fechaRec, salarioBase, estado, tipoContrato, nitRut, 0); // rut = 0
+                    } else if (tipoContrato.equalsIgnoreCase("Independiente")) {
+                        nuevoContrato = new Contrato(numRadicado, cotNum, fechaRec, salarioBase, estado, tipoContrato, 0, nitRut); // nitEmpresa = 0
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "Tipo de contrato no válido.");
+                        return; 
+                    }
+        
+                    boolean registrado = registrarContrato(nuevoContrato);
+        
+                    if (registrado) {
+                        txtNumRadicado.setText("");
+                        txtCotNum.setText("");
+                        txtFechaRec.setText("");
+                        txtSalarioBase.setText("");
+                        txtEstado.setText("");
+                        txtTipoContrato.setText("");
+                        txtNitRut.setText("");
+        
+                        JOptionPane.showMessageDialog(frame, "Contrato registrado exitosamente.");
+                    } else {
+                        JOptionPane.showMessageDialog(frame, "No se pudo registrar el contrato.");
+                    }
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, "Error al registrar el contrato: " + ex.getMessage());
+            }
+        });
+
+        frame.add(panel);
+        frame.setVisible(true);
     }
 
     public boolean registrarContrato(Contrato contrato) {
@@ -28,75 +129,19 @@ public class GenerarContrato {
             statement.setString(5, contrato.getEstado());
             statement.setString(6, contrato.getTipoContrato());
 
-            if (contrato.getTipoContrato().equalsIgnoreCase("Dependiente")) { //en caso de que sea dependiente se ingresa el Nit de la empresa
-                statement.setInt(7, contrato.getNitEmpresa()); 
+            if (contrato.getTipoContrato().equalsIgnoreCase("Dependiente")) { 
+                statement.setInt(7, contrato.getNitEmpresa());
                 statement.setNull(8, Types.INTEGER);  
-            } else if (contrato.getTipoContrato().equalsIgnoreCase("Independiente")) { // en caso de que no, se ingresa el rut del independiente
-                statement.setNull(7, Types.INTEGER);  //en ambos casos lo que hace es poner NULL al atributo que no le corresponda
-                statement.setInt(8, contrato.getRut()); 
+            } else if (contrato.getTipoContrato().equalsIgnoreCase("Independiente")) { 
+                statement.setNull(7, Types.INTEGER);  
+                statement.setInt(8, contrato.getRut());
             }
 
             int filasAfectadas = statement.executeUpdate();
-
-            if (filasAfectadas > 0) {
-                System.out.println("Contrato registrado correctamente.");
-                return true;
-            } else {
-                System.out.println("No se pudo registrar el contrato.");
-                return false;
-            }
+            return filasAfectadas > 0;
         } catch (SQLException e) {
             System.out.println("Error al registrar el contrato: " + e.getMessage());
             return false;
-        }
-    }
-
-    public void IngresarContrato() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Ingrese el número de radicado:");
-        int numRadicado = scanner.nextInt();
-        scanner.nextLine(); 
-
-        System.out.println("Ingrese el número de documento del cotizante:");
-        int cotNum = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Ingrese la fecha de recepción (YYYY-MM-DD):");
-        String fechaRecStr = scanner.nextLine();
-        Date fechaRec = Date.valueOf(fechaRecStr);
-
-        System.out.println("Ingrese el salario base:");
-        double salarioBase = scanner.nextDouble();
-        scanner.nextLine();
-
-        System.out.println("Ingrese el estado (Activo/Inactivo/Retirado):");
-        String estado = scanner.nextLine();
-
-        System.out.println("Ingrese el tipo de contrato (Dependiente/Independiente):");
-        String tipoContrato = scanner.nextLine();
-
-        int nitEmpresa = 0;
-        int rut = 0;
-        if (tipoContrato.equalsIgnoreCase("Dependiente")) { //se solicita al administrador especificar el tipo de contrario y solicita lo correspondiente en alguno de los dos casos
-            System.out.println("Ingrese el NIT de la empresa del cotizante:");
-            nitEmpresa = scanner.nextInt();
-            scanner.nextLine(); 
-        } else if (tipoContrato.equalsIgnoreCase("Independiente")) {
-            System.out.println("Ingrese el RUT del cotizante:");
-            rut = scanner.nextInt();
-            scanner.nextLine(); 
-        }
-        // declaramos el contrato con los nuevos atributos que se le agregan, siendo NULL aquellos que no correspondan 
-        Contrato contrato = new Contrato(numRadicado, cotNum, fechaRec, salarioBase, estado, tipoContrato, nitEmpresa, rut);
-        try {
-            if (registrarContrato(contrato)) {
-                System.out.println("Contrato ingresado correctamente.");
-            } else {
-                System.out.println("No se pudo ingresar el contrato.");
-            }
-        } catch (Exception e) {
-            System.out.println("Error inesperado: " + e.getMessage());
         }
     }
 }

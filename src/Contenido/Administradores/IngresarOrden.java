@@ -1,11 +1,16 @@
 package Contenido.Administradores;
-import java.sql.*;
-import java.util.Scanner;
+
 import Contenido.ConectividadSQL;
+import Contenido.Administradores.Ordenes_servicio;
+
+import javax.swing.*;
+import java.awt.*;
+import java.sql.*;
 
 public class IngresarOrden {
     private Connection connection;
 
+    // Constructor para inicializar la conexión a la base de datos
     public IngresarOrden() {
         connection = ConectividadSQL.obtenerConexion();  
         if (connection != null) {
@@ -14,7 +19,89 @@ public class IngresarOrden {
             System.out.println("Error en la conexión a la base de datos.");
         }
     }
-    public void RegistrarOrden(Ordenes_servicio orden){
+
+    // Método para crear la ventana de registro de ordenes
+    public void GenerarOrden() {
+        JFrame frame = new JFrame("Registrar Orden de Servicio");
+        frame.setSize(500, 400);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frame.setLocationRelativeTo(null); // Centra la ventana en la pantalla
+
+        // Panel principal que organiza los componentes
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        
+        // Componentes gráficos
+        JLabel lblCodOrden = new JLabel("Código de Orden:");
+        JLabel lblFecha = new JLabel("Fecha de Orden:");
+        JLabel lblDocPaciente = new JLabel("Documento del Paciente:");
+        JLabel lblMedico = new JLabel("Médico:");
+        JLabel lblDiagnostico = new JLabel("Diagnóstico:");
+        
+        JTextField txtCodOrden = new JTextField();
+        JTextField txtFecha = new JTextField();
+        JTextField txtDocPaciente = new JTextField();
+        JTextField txtMedico = new JTextField();
+        JTextField txtDiagnostico = new JTextField();
+        
+        JButton btnRegistrar = new JButton("Registrar Orden");
+        btnRegistrar.setBackground(new Color(102, 180, 255)); // Azul claro
+        btnRegistrar.setForeground(Color.WHITE);
+        btnRegistrar.setFont(new Font("Arial", Font.BOLD, 14));
+        btnRegistrar.setFocusPainted(false);
+
+        // Añadiendo los componentes al panel
+        panel.add(lblCodOrden);
+        panel.add(txtCodOrden);
+        panel.add(lblFecha);
+        panel.add(txtFecha);
+        panel.add(lblDocPaciente);
+        panel.add(txtDocPaciente);
+        panel.add(lblMedico);
+        panel.add(txtMedico);
+        panel.add(lblDiagnostico);
+        panel.add(txtDiagnostico);
+        panel.add(Box.createVerticalStrut(20)); // Espaciado entre los componentes
+        panel.add(btnRegistrar);
+
+        // Acción del botón de registrar
+        btnRegistrar.addActionListener(e -> {
+            try {
+                int codOrden = Integer.parseInt(txtCodOrden.getText());
+                Date fecha = Date.valueOf(txtFecha.getText());
+                int docPaciente = Integer.parseInt(txtDocPaciente.getText());
+                String medico = txtMedico.getText();
+                String diagnostico = txtDiagnostico.getText();
+                
+                if (codOrden == 0 || fecha == null || docPaciente == 0 || medico.isEmpty() || diagnostico.isEmpty()) {
+                    JOptionPane.showMessageDialog(frame, "Por favor, complete todos los campos.");
+                } else {
+                    // Llamar a la función de registrarOrden
+                    Ordenes_servicio nuevaOrden = new Ordenes_servicio(codOrden, fecha, docPaciente, medico, diagnostico);
+                    RegistrarOrden(nuevaOrden);
+
+                    // Limpiar los campos de texto después de registrar la orden
+                    txtCodOrden.setText("");
+                    txtFecha.setText("");
+                    txtDocPaciente.setText("");
+                    txtMedico.setText("");
+                    txtDiagnostico.setText("");
+
+                    JOptionPane.showMessageDialog(frame, "Orden registrada exitosamente.");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(frame, "Error al registrar la orden: " + ex.getMessage());
+            }
+        });
+
+        // Establecer la ventana visible
+        frame.add(panel);
+        frame.setVisible(true);
+    }
+
+    // Método que inserta la orden en la base de datos
+    public void RegistrarOrden(Ordenes_servicio orden) {
         String query = "INSERT INTO ordenes (cod_orden, fecha, doc_paciente, medico, diagnostico) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -25,36 +112,8 @@ public class IngresarOrden {
             statement.setString(5, orden.getDiagnostico());
             statement.executeUpdate();
             System.out.println("Orden agregada correctamente.");
+        } catch (SQLException e) {
+            System.out.println("Error al registrar la Orden: " + e.getMessage());
         }
-        catch (SQLException e) {
-            System.out.println("Error al registrar la Ips: " + e.getMessage());
-        }
-    }
-    //todo lo independiente de la consola está arriba ^^
-    public void GenerarOrden(){
-
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Ingrese el codigo de la orden: ");
-        int cod_orden = scanner.nextInt();
-        scanner.nextLine(); 
-
-        System.out.println("Ingrese la fecha de la orden (YYYY-MM-DD): ");
-        String fechaStr = scanner.nextLine();
-        Date fecha = Date.valueOf(fechaStr);
-
-        System.out.println("Ingrese el DNI del paciente: ");
-        int doc_paciente = scanner.nextInt();
-        scanner.nextLine();
-
-        System.out.println("Ingrese el nombre del medico encargado: ");
-        String medico = scanner.nextLine();
-
-        System.out.println("Ingrese el diagnostico: ");
-        String diagnostico = scanner.nextLine();
-
-        Ordenes_servicio orden = new Ordenes_servicio(cod_orden, fecha, doc_paciente, medico, diagnostico);
-        RegistrarOrden(orden); //esto creo que es unicamente necesario para cuando es por consola, asumo que por GUI se resuelve de forma distninta o no? ni idea pero funciona
     }
 }
-
