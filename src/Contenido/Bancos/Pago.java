@@ -1,19 +1,16 @@
 package Contenido.Bancos;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Pago {
     private int codigoPago;
-    private int numeroDocumentoAfiliado;
-    private String nombreCompleto;
     private int numRadicado;
     private Date fechaPago;
     private double valor;
 
-    public Pago(int codigoPago, int numeroDocumentoAfiliado, String nombreCompleto, int numRadicado, Date fechaPago, double valor) {
+    // Constructor adecuado, eliminando los parámetros innecesarios
+    public Pago(int codigoPago, int numRadicado, Date fechaPago, double valor) {
         this.codigoPago = codigoPago;
-        this.numeroDocumentoAfiliado = numeroDocumentoAfiliado;
-        this.nombreCompleto = nombreCompleto;
         this.numRadicado = numRadicado;
         this.fechaPago = fechaPago;
         this.valor = valor;
@@ -25,22 +22,6 @@ public class Pago {
 
     public void setCodigoPago(int codigoPago) {
         this.codigoPago = codigoPago;
-    }
-
-    public int getNumeroDocumentoAfiliado() {
-        return numeroDocumentoAfiliado;
-    }
-
-    public void setNumeroDocumentoAfiliado(int numeroDocumentoAfiliado) {
-        this.numeroDocumentoAfiliado = numeroDocumentoAfiliado;
-    }
-
-    public String getNombreCompleto() {
-        return nombreCompleto;
-    }
-
-    public void setNombreCompleto(String nombreCompleto) {
-        this.nombreCompleto = nombreCompleto;
     }
 
     public int getNumRadicado() {
@@ -66,11 +47,12 @@ public class Pago {
     public void setValor(double valor) {
         this.valor = valor;
     }
+
+    @Override
     public String toString() {
         return String.format(
-            "Código de Pago: %d | Documento Afiliado: %d | Nombre: %s | Número Radicado: %d | Fecha de Pago: %s | Valor: %.2f",
-            codigoPago, numeroDocumentoAfiliado, nombreCompleto, numRadicado, fechaPago, valor
+            "Código de Pago: %d | Número Radicado: %d | Fecha de Pago: %s | Valor: %.2f",
+            codigoPago, numRadicado, fechaPago, valor
         );
     }
 }
-
