@@ -105,7 +105,7 @@ public class ModificarIpsGUI extends JFrame {
 
                 if (fieldDb != null) {
                     try {
-                        String query = "UPDATE IPS SET " + fieldDb + " = ? WHERE E_NIT = ?";
+                        String query = "UPDATE IPS SET " + fieldDb + " = ? WHERE NIT = ?";
                         try (PreparedStatement statement = connection.prepareStatement(query)) {
                             statement.setString(1, newValue); // Asignar el nuevo valor para el campo
                             statement.setInt(2, nit); // Asignar el NIT de la IPS
