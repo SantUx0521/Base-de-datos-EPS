@@ -104,10 +104,24 @@ public class ModificarOrdenGUI extends JFrame {
 
                 if (fieldDb != null) {
                     try {
-                        String query = "UPDATE ORDENES SET " + fieldDb + " = ? WHERE E_NIT = ?";
+                        String query = "UPDATE ORDENES SET " + fieldDb + " = ? WHERE Cod_orden = ?";
                         try (PreparedStatement statement = connection.prepareStatement(query)) {
                             if ("fecha".equals(fieldDb)) {
-                                statement.setDate(1, Date.valueOf(newValue));
+                                try {
+                                    statement.setDate(1, Date.valueOf(newValue));
+                                } catch (IllegalArgumentException ex) {
+                                    lblStatus.setText("Formato de fecha incorrecto.");
+                                    lblStatus.setForeground(Color.RED);
+                                    return;
+                                }
+                            } else if ("doc_paciente".equals(fieldDb)) {
+                                try {
+                                    statement.setInt(1, Integer.parseInt(newValue));
+                                } catch (NumberFormatException ex) {
+                                    lblStatus.setText("El DNI debe ser un número.");
+                                    lblStatus.setForeground(Color.RED);
+                                    return;
+                                }
                             } else {
                                 statement.setString(1, newValue);
                             }
